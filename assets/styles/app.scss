@@ -1,0 +1,10 @@
+@import "~bootstrap/scss/bootstrap";
+
+$theme-colors: (
+    "primary": #35A2BA,
+    "secondary": rgb(245, 234, 234)
+);
+
+body {
+    background-color: theme-color(secondary);
+}
