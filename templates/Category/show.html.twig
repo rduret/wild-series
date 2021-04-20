@@ -1,7 +1,7 @@
 {% extends "base.html.twig" %}
-{% block title %}Catégorie {{category }}{% endblock %}
+{% block title %}Catégorie {{category.name}}{% endblock %}
 {% block body %}
-    <h1>Liste des séries pour la catégorie {{category }}</h1>
+    <h1>Liste des séries pour la catégorie {{category.name}}</h1>
     {% for program in programs %}
     <div>
         <h2>{{ loop.index }} / {{ program.title }} - Catégorie : {{ program.category.name }}</h2>
