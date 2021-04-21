@@ -5,6 +5,6 @@
     <h1>Toutes les catégories de la table category : </h1>
 
     {% for category in categories %}
-        <p><a href="{{ path("category_show", { categoryName: category.name }) }}">{{category.name}}</a></p>
+        <p><a href="{{ path("category_show", { name: category.name }) }}">{{category.name}}</a></p>
     {% endfor %}
 {% endblock %}

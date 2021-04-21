@@ -5,13 +5,16 @@
         <a class="nav-link" href="/">Accueil</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/programs/">Séries</a>
+        <a class="nav-link" href="{{ path('program_index')}}">Séries</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="{{ path('season_index')}}">Saisons</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="{{ path('episode_index')}}">Episodes</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{{ path('category_index')}}">Catégories</a>
       </li>
   </div>
 </nav>
