@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Program;
 use App\Entity\Season;
 use App\Entity\Episode;
@@ -31,7 +32,7 @@ class ProgramController extends AbstractController
     * @Route("new", 
     * name="new")
     */
-    public function new(Request $request)
+    public function new(Request $request, EntityManagerInterface $entityManager)
     {
         $program = new Program();
 
@@ -43,7 +44,7 @@ class ProgramController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) { 
             // Deal with the submitted data
             // Get the Entity Manager
-            $entityManager = $this->getDoctrine()->getManager();
+            //$entityManager = $this->getDoctrine()->getManager();
 
             // Persist Category Object
             $entityManager->persist($program);
