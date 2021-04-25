@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -10,6 +11,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Program;
 use App\Entity\Season;
 use App\Entity\Episode;
+use App\Service\Slugify;
 use App\Form\ProgramType;
 
 
@@ -32,7 +34,7 @@ class ProgramController extends AbstractController
     * @Route("new", 
     * name="new")
     */
-    public function new(Request $request, EntityManagerInterface $entityManager)
+    public function new(Request $request, EntityManagerInterface $entityManager, Slugify $slugify)
     {
         $program = new Program();
 
@@ -42,11 +44,10 @@ class ProgramController extends AbstractController
 
         // Was the form submitted ?
         if ($form->isSubmitted() && $form->isValid()) { 
-            // Deal with the submitted data
-            // Get the Entity Manager
-            //$entityManager = $this->getDoctrine()->getManager();
+            
+            $slug = $slugify->generate($program->getTitle());
+            $program->setSlug($slug);
 
-            // Persist Category Object
             $entityManager->persist($program);
 
             // Flush the persisted object
@@ -63,9 +64,8 @@ class ProgramController extends AbstractController
     }
 
     /**
-    * @Route("{id}", 
+    * @Route("{slug}", 
     * name="show",
-    * requirements={"id"="\d+"},
     * methods={"GET"})
     */
     public function show(Program $program)
@@ -82,30 +82,31 @@ class ProgramController extends AbstractController
     }
 
     /**
-    * @Route("{programId}/seasons/{seasonId}", 
+    * @Route("{slug}/seasons/{number}", 
     * name="season_show",
-    * requirements={"program"="\d+", "season"="\d+"},
     * methods={"GET"})
     */
-    public function showSeason(Program $programId, Season $seasonId)
+    public function showSeason(Program $program, Season $season)
     {
-        return $this->render('Program/season_show.html.twig', ['program' => $programId, 'season' => $seasonId]);
+        return $this->render('Program/season_show.html.twig', ['program' => $program, 'season' => $season]);
     }
 
 
     /**
-    * @Route("{programId}/seasons/{seasonId}/episodes/{episodeId}", 
+    * @Route("{program}/seasons/{number}/episodes/{episode}", 
     * name="episode_show",
-    * requirements={"program"="\d+", "season"="\d+", "episode"="\d+"},
+    * requirements={"season"="\d+"},
     * methods={"GET"})
+    * @ParamConverter("program", class="App\Entity\Program", options={"mapping": {"program": "slug"}})
+    * @ParamConverter("episode", class="App\Entity\Episode", options={"mapping": {"episode": "slug"}})
     */
-    public function showEpisode(Program $programId, Season $seasonId, Episode $episodeId)
+    public function showEpisode(Program $program, Season $season, Episode $episode)
     {
         return $this->render('Program/episode_show.html.twig', 
             [
-            'program' => $programId, 
-            'season' => $seasonId,
-            'episode' => $episodeId
+            'program' => $program, 
+            'season' => $season,
+            'episode' => $episode
             ]);
     }
 }

@@ -13,7 +13,7 @@
     <p>Catégorie : {{ program.category.name }}</p>
     <div>
         {% for season in seasons %}
-            <a href="/programs/{{program.id}}/seasons/{{season.id}}">Saison {{season.number}}</a>
+            <a href="{{path('program_season_show', {slug: program.slug, number: season.number})}}">Saison {{season.number}}</a>
         {% endfor %}
     </div>
 <strong>Acteurs :</strong>
