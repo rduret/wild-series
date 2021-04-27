@@ -23,8 +23,30 @@
                 <th>Synopsis</th>
                 <td>{{ episode.synopsis }}</td>
             </tr>
+            {% if episode.comments is not empty %}
+            <tr>
+                <th>Avis</th>
+                <td>
+                {% for comment in episode.comments %}
+                <div>
+                    <strong><p>{{ comment.rate }}/10</p></strong>
+                    <p>{{ comment.comment }}</p>
+                </div>
+                <hr>
+                {% endfor %}
+                </td>
+            </tr>
+            {% endif %}
         </tbody>
     </table>
+
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+    <p>Email: {{ app.user.email }}</p>
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+        {# <button class="btn">{{ button_label|default('Ajouter commentaire') }}</button> #}
+    {{ form_end(form) }}
+    {% endif %}
 
     <a href="{{ path('episode_index') }}">back to list</a>
 

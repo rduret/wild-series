@@ -19,5 +19,11 @@
       <li class="nav-item">
         <a class="nav-link" href="{{ path('actor_index')}}">Acteurs</a>
       </li>
+      {% if app.user %}
+        {{ app.user.email }}
+        <a href="{{ path('app_logout') }}"> Se déconnecter</a>
+        {% else %}
+        <a href="{{ path('app_login') }}"> Se connecter</a>
+      {% endif %}
   </div>
 </nav>
